@@ -9,6 +9,9 @@
     <color name="white">#FFFFFFFF</color>
 
 
+    <color name="gray_100">#FF69686E</color>
+
+
     <color name="primaryColor">#FF1F1D26</color>
     <color name="onPrimary">#FFFFFF</color>
 </resources>

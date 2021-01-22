@@ -2,6 +2,7 @@ import dependency.Androidx
 import dependency.Kotlin
 import dependency.Libs
 
+
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
@@ -48,10 +49,15 @@ dependencies {
     implementation Androidx.coreKtx
     implementation Androidx.appCompat
     implementation Androidx.constraintLayout
+    implementation Androidx.navigatioUIKtx
+    implementation Androidx.fragmentKtx
 
 
     //Google-Material
     implementation Libs.Google.material
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
 
 
 }

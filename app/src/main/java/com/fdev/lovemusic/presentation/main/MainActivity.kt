@@ -1,4 +1,4 @@
-package com.fdev.lovemusic.presentation
+package com.fdev.lovemusic.presentation.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -9,4 +9,4 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
     }
-}
+}   

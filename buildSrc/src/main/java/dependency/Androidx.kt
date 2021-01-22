@@ -13,4 +13,10 @@ object Androidx {
     private const val constraintLayoutVersion = "2.0.4"
     const val constraintLayout = "androidx.constraintlayout:constraintlayout:$constraintLayoutVersion"
 
+
+    //Part of navigation component
+    private const val navVersion = "2.3.2"
+    const val fragmentKtx = "androidx.navigation:navigation-fragment-ktx:$navVersion"
+    const val navigatioUIKtx = "androidx.navigation:navigation-ui-ktx:$navVersion"
+
 }

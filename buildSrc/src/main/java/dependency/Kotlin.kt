@@ -3,8 +3,8 @@ package dependency
 object Kotlin {
 
 
-    const val kotlinVersion = "1.4.21"
-    const val coroutineVersion = "1.4.2"
+    private const val kotlinVersion = "1.4.21"
+    private const val coroutineVersion = "1.4.2"
 
     //Kotlin Standard Library
     const val stdlib = "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
