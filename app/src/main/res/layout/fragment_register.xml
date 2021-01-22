@@ -12,7 +12,7 @@
         android:paddingHorizontal="42dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="12dp"
-        android:text="Satu langkah lagi untuk\nmendengarkan musik\nkesukaan anda"
+        android:text="@string/register_moto_2"
         android:textAlignment="textStart"
         android:textColor="@color/onPrimary"
         android:textSize="22sp"
@@ -35,8 +35,13 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
-            android:background="@color/white"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:hint="@string/register_username_hint"
+            android:padding="12dp"
+            android:textSize="16sp"
+            android:textColorHint="@color/onPrimary"
+            android:backgroundTint="@color/onPrimary"
+            />
 
 
         <androidx.cardview.widget.CardView
@@ -45,12 +50,12 @@
             app:cardCornerRadius="12dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
+            app:cardBackgroundColor="@color/onPrimary"
             >
 
             <TextView
-                android:text="Daftar"
-                android:textColor="@color/black"
+                android:text="@string/register_btn_daftar"
+                android:textColor="@color/primaryColor"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:textAlignment="center"
@@ -79,7 +84,7 @@
 
         <TextView
             android:layout_marginStart="12dp"
-            android:text="Love Music"
+            android:text="@string/app_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/onPrimary"

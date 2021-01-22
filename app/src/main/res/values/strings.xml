@@ -1,15 +1,18 @@
 <resources>
 
-
-<!--    Register String related-->
+<!--App level-->
     <string name="app_name">LoveMusic</string>
+
+<!-- Auth String related-->
     <string name="google_register_btn_text">Daftar atau Masuk dengan akun Google</string>
     <string name="facebook_register_btn_text">Daftar atau Masuk dengan akun Facebook</string>
     <string name="apple_register_btn_text">Daftar atau Masuk dengan akun Apple</string>
     <string name="register_moto">Dengarkan dan Bagikan<br>Musikmu</br></string>
     <string name="register_quote_text">"Music express that<br>which cannot put into words"</br></string>
     <string name="regiter_quote_writer_text">~ Victor Hugo</string>
-
+    <string name="register_moto_2">Satu langkah lagi untuk<br>mendengarkan musik</br><br>nkesukaan anda</br></string>
+    <string name="register_username_hint">Masukan username disini</string>
+    <string name="register_btn_daftar">Daftar</string>
 
 
 </resources>

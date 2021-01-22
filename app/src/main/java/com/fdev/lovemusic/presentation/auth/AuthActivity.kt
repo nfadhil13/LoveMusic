@@ -3,10 +3,16 @@ package com.fdev.lovemusic.presentation.auth
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.fdev.lovemusic.R
+import com.fdev.lovemusic.databinding.ActivityAuthBinding
 
 class AuthActivity : AppCompatActivity() {
+
+    private lateinit var binding : ActivityAuthBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_auth)
+        binding = ActivityAuthBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
     }
 }
