@@ -25,6 +25,7 @@ class SplashFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        println("splash fragment creat")
         _binding = FragmentSplashBinding.inflate(inflater, container , false)
         val view = binding.root
         return view

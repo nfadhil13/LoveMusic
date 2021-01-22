@@ -14,5 +14,6 @@ class AuthActivity : AppCompatActivity() {
         binding = ActivityAuthBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
+        println("AuthActiviy done")
     }
 }
