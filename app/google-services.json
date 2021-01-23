@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "434265531495",
+    "project_id": "musiclove-c5c2c",
+    "storage_bucket": "musiclove-c5c2c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:434265531495:android:22041288ae6a9845f460c2",
+        "android_client_info": {
+          "package_name": "com.fdev.lovemusic"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "434265531495-vr1rbpp9vdrvgf2e12omerld81j7o871.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyByG0Kti1cHqxaq-pWm646pH6AzrKyj0Ag"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "434265531495-vr1rbpp9vdrvgf2e12omerld81j7o871.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

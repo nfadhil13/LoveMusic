@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.fdev.lovemusic.R
 import com.fdev.lovemusic.databinding.ActivityAuthBinding
+import com.google.firebase.ktx.initialize
 
 class AuthActivity : AppCompatActivity() {
 
@@ -14,6 +15,5 @@ class AuthActivity : AppCompatActivity() {
         binding = ActivityAuthBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
-        println("AuthActiviy done")
     }
 }

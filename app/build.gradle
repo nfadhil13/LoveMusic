@@ -6,6 +6,8 @@ import dependency.Libs
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'com.google.gms.google-services'
+    id 'com.google.firebase.crashlytics'
 }
 
 android {
@@ -58,9 +60,21 @@ dependencies {
 
     //Google-Material
     implementation Libs.Google.material
-    implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+
+    //Google play auth
+    implementation Libs.Google.playServiceAuth
+
+
+    //Firebase
+    implementation platform(Libs.Firebase.firebaseBOM)
+    implementation Libs.Firebase.analytics
+    implementation Libs.Firebase.crashlytics
+    implementation Libs.Firebase.storage
+    implementation Libs.Firebase.firestore
+    implementation Libs.Firebase.auth
+
+
+
 
 
 }

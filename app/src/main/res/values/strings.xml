@@ -1,5 +1,8 @@
 <resources>
 
+<!--    Google play service-->
+    <string name="what_do_you_mean">434265531495-vr1rbpp9vdrvgf2e12omerld81j7o871.apps.googleusercontent.com</string>
+
 <!--App level-->
     <string name="app_name">LoveMusic</string>
 
@@ -13,6 +16,7 @@
     <string name="register_moto_2">"Satu langkah lagi\nuntuk mendengarkan\nmusik kesukaan anda"</string>
     <string name="register_username_hint">Masukan username disini</string>
     <string name="register_btn_daftar">Daftar</string>
+
 
 
 </resources>
