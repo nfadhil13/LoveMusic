@@ -8,6 +8,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:name=".LoveMusicApplication"
         android:theme="@style/Theme.LoveMusic">
         <activity android:name=".presentation.auth.AuthActivity">
             <intent-filter>

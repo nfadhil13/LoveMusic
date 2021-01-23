@@ -3,12 +3,17 @@ package com.fdev.lovemusic.presentation.auth
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.fdev.lovemusic.R
+import com.fdev.lovemusic.TestHilt
 import com.fdev.lovemusic.databinding.ActivityAuthBinding
 import com.google.firebase.ktx.initialize
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class AuthActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivityAuthBinding
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

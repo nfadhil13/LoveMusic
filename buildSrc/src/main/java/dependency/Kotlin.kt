@@ -14,6 +14,8 @@ object Kotlin {
 
     const val coroutine = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutineVersion"
 
+    const val coroutinePlayservices = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:$coroutineVersion"
+
 
 
 

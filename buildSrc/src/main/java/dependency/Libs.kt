@@ -37,4 +37,12 @@ object Libs {
         const val storage = "com.google.firebase:firebase-storage-ktx"
     }
 
+    object Hilt{
+        private const val version = "2.31.2-alpha"
+
+        const val gradlePlugin = "com.google.dagger:hilt-android-gradle-plugin:$version"
+        const val hiltAndroid = "com.google.dagger:hilt-android:$version"
+        const val compiler = "com.google.dagger:hilt-android-compiler:$version"
+    }
+
 }

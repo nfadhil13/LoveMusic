@@ -7,15 +7,24 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.LifecycleCoroutineScope
+import androidx.lifecycle.lifecycleScope
 import com.fdev.lovemusic.R
 import com.fdev.lovemusic.databinding.FragmentLoginBinding
+import com.fdev.lovemusic.datasource.network.business.abstraction.UserNetworkDatasource
+import com.fdev.lovemusic.datasource.network.business.implementation.UserNetworkDatasourceImpl
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 
+@AndroidEntryPoint
 class LoginFragment : Fragment() {
 
 
@@ -28,6 +37,8 @@ class LoginFragment : Fragment() {
     private val binding
         get() = _binding!!
 
+
+    @Inject lateinit var  userNetworkDatasource: UserNetworkDatasource
 
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
     private lateinit var googleSignInClient: GoogleSignInClient
@@ -89,7 +100,11 @@ class LoginFragment : Fragment() {
                 try {
                     // Google Sign In was successful, authenticate with Firebase
                     val account = task.getResult(ApiException::class.java)!!
-                    println("firebaseAuthWithGoogle:" + account.id)
+                    account.idToken?.let{ idToken ->
+                        lifecycleScope.launch(IO){
+                            println(userNetworkDatasource.checkIfUserExist(idToken))
+                        }
+                    }
                 } catch (e: ApiException) {
                     // Google Sign In failed, update UI appropriately
                     println("Error $e")

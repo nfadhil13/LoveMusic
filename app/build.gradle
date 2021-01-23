@@ -8,6 +8,8 @@ plugins {
     id 'kotlin-android'
     id 'com.google.gms.google-services'
     id 'com.google.firebase.crashlytics'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
 }
 
 android {
@@ -48,6 +50,7 @@ dependencies {
     //Kotlin
     implementation Kotlin.stdlib
     implementation Kotlin.coroutine
+    implementation Kotlin.coroutinePlayservices
 
 
     //Androidx
@@ -72,6 +75,10 @@ dependencies {
     implementation Libs.Firebase.storage
     implementation Libs.Firebase.firestore
     implementation Libs.Firebase.auth
+
+    //Dagger Hilt
+    implementation Libs.Hilt.hiltAndroid
+    kapt Libs.Hilt.compiler
 
 
 
