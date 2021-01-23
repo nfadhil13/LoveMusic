@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.fdev.lovemusic.R
 import com.fdev.lovemusic.databinding.FragmentLoginBinding
@@ -55,22 +56,19 @@ class LoginFragment : Fragment() {
                 val signInIntent = googleSignInClient.signInIntent
                 startActivityForResult(signInIntent, GOOGLE_SIGN_IN)
             }
+            facebookBtn.setOnClickListener {
+                Toast.makeText(requireContext() , "This Feature will be release soon" , Toast.LENGTH_SHORT).show()
+            }
+            appleBtn.setOnClickListener {
+                Toast.makeText(requireContext() , "This Feature will be release soon" , Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
     private fun initAllSigninMethod() {
         initGoogleSignin()
-        initAppleSignin()
-        initFacebookSignin()
     }
 
-    private fun initFacebookSignin() {
-        // Init facebook signin
-    }
-
-    private fun initAppleSignin() {
-        //Init apple signin
-    }
 
     private fun initGoogleSignin() {
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
