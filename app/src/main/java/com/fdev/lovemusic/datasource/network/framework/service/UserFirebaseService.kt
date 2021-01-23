@@ -10,10 +10,10 @@ import javax.inject.Inject
 
 class UserFirebaseService
 @Inject
-constructor() {
-
-    private val firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
-    private val firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
+constructor(
+        private val firebaseAuth: FirebaseAuth,
+        private val firestore: FirebaseFirestore
+) {
 
     suspend fun checkIfUserExist(idToken: String): Boolean {
         val credential = GoogleAuthProvider.getCredential(idToken, null)

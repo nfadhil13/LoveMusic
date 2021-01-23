@@ -6,13 +6,16 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.FragmentComponent
+import dagger.hilt.android.components.ViewModelComponent
+import dagger.hilt.android.scopes.ViewModelScoped
 
 
 @Module
-@InstallIn(FragmentComponent::class)
+@InstallIn(ViewModelComponent::class)
 abstract class ViewModelBind {
 
 
     @Binds
+    @ViewModelScoped
     abstract fun bindUserNetworkSource(userNetworkDatasourceImpl: UserNetworkDatasourceImpl) : UserNetworkDatasource
 }

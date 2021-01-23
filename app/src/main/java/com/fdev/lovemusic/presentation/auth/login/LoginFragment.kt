@@ -1,14 +1,17 @@
 package com.fdev.lovemusic.presentation.auth.login
 
 import android.content.Intent
+import android.opengl.Visibility
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.fdev.lovemusic.R
 import com.fdev.lovemusic.databinding.FragmentLoginBinding
 import com.fdev.lovemusic.datasource.network.business.abstraction.UserNetworkDatasource
@@ -27,6 +30,8 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class LoginFragment : Fragment() {
 
+
+    private val loginViewModel : LoginViewModel by viewModels()
 
     companion object {
         const val GOOGLE_SIGN_IN = 12
@@ -58,6 +63,45 @@ class LoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initListener()
         initAllSigninMethod()
+        initObserver()
+    }
+
+    private fun initObserver() {
+        loginViewModel.isUserExist.observe(viewLifecycleOwner , { isUserExist ->
+            if(isUserExist){
+                navToRegister()
+            }
+//            else{
+//                //TODO
+//                //Login
+//                //Tell auth activity main activity
+//            }
+        })
+
+        loginViewModel.errorMessage.observe(viewLifecycleOwner , {
+            println("Error $it")
+        })
+
+        loginViewModel.loading.observe(viewLifecycleOwner , {
+            toogleLoading(it)
+        })
+    }
+
+    private fun toogleLoading(isLoading : Boolean){
+        binding.apply {
+            if(isLoading){
+                overlay.visibility = View.VISIBLE
+                progressBar.visibility = View.VISIBLE
+            }else{
+                overlay.visibility = View.GONE
+                progressBar.visibility = View.GONE
+            }
+        }
+
+    }
+
+    private fun navToRegister() {
+        findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
     }
 
 
@@ -101,9 +145,7 @@ class LoginFragment : Fragment() {
                     // Google Sign In was successful, authenticate with Firebase
                     val account = task.getResult(ApiException::class.java)!!
                     account.idToken?.let{ idToken ->
-                        lifecycleScope.launch(IO){
-                            println(userNetworkDatasource.checkIfUserExist(idToken))
-                        }
+                        loginViewModel.checkIfUserExist(idToken)
                     }
                 } catch (e: ApiException) {
                     // Google Sign In failed, update UI appropriately

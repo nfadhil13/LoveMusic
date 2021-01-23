@@ -6,6 +6,6 @@ interface UserNetworkDatasource {
 
     suspend fun checkIfUserExist(idToken : String) : Boolean
 
-    suspend fun signUp(user : User) : User
+    suspend fun signUp(user : User , idToken : String) : User
 
 }
