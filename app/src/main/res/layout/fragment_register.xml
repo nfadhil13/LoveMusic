@@ -42,25 +42,32 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <com.google.android.material.textfield.TextInputEditText
+
+
+        <com.fdev.lovemusic.util.customview.TrickyTextField
+            android:id="@+id/username_text_field"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/register_username_hint"
-            android:padding="12dp"
-            android:textSize="16sp"
-            android:textColor="@color/onPrimary"
-            android:textColorHint="@color/onPrimary"
-            android:backgroundTint="@color/onPrimary"
+            app:hint="@string/register_username_hint"
+            app:textSize="16sp"
+            app:textColor="@color/onPrimary"
+            app:textColorHint="@color/gray_100"
+            app:backgroundTint="@color/onPrimary"
+            app:errorTextColor="@color/error"
+            app:errorTextSize="12sp"
+            app:errorText="Ini aku loh"
             />
 
 
-        <androidx.cardview.widget.CardView
+        <com.fdev.lovemusic.util.customview.TrickyButton
+            android:id="@+id/daftar_btn"
             android:layout_marginTop="42dp"
             app:contentPadding="10dp"
             app:cardCornerRadius="12dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardBackgroundColor="@color/onPrimary"
+            app:onDisableBackgroundColor="@color/gray_100"
             >
 
             <TextView
@@ -71,7 +78,7 @@
                 android:textAlignment="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
-        </androidx.cardview.widget.CardView>
+        </com.fdev.lovemusic.util.customview.TrickyButton>
 
     </LinearLayout>
 

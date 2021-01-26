@@ -1,5 +1,6 @@
 package com.fdev.lovemusic.presentation.auth.register
 
+import android.opengl.Visibility
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.fdev.lovemusic.databinding.FragmentLoginBinding
 import com.fdev.lovemusic.databinding.FragmentRegisterBinding
+import com.fdev.lovemusic.util.customview.ErrorData
 
 class RegisterFragment : Fragment() {
 
@@ -26,9 +28,31 @@ class RegisterFragment : Fragment() {
         return view
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.daftarBtn.disableButton()
+        binding.apply {
+            usernameTextField.addOnErrorListener(isError = { currentText ->
+                binding.daftarBtn.disableButton()
+                if(currentText.isBlank() || currentText.isEmpty()){
+                    return@addOnErrorListener  ErrorData.Error(message = "Username tidak boleh kosong")
+                }
+                if(currentText.contains(" ")){
+                    return@addOnErrorListener ErrorData.Error(message =  "Tidak boleh ada spasi pada username")
+                }
+                if(currentText.length > 15){
+                    return@addOnErrorListener ErrorData.Error(message =  "Maksimal 15 karakter")
+                }
+                binding.daftarBtn.enableButton()
+                return@addOnErrorListener ErrorData.NotError
+            })
+        }
+    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
+        binding.usernameTextField.disposeView()
         _binding = null
     }
 

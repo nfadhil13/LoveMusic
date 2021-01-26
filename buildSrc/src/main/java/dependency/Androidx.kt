@@ -13,6 +13,13 @@ object Androidx {
     private const val constraintLayoutVersion = "2.0.4"
     const val constraintLayout = "androidx.constraintlayout:constraintlayout:$constraintLayoutVersion"
 
+    private const val lifecycleVersion = "2.2.0"
+
+    // ViewModel
+    const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
+    // LiveData
+    const val liveData =  "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion"
+
 
     //Part of navigation component
     private const val navVersion = "2.3.2"

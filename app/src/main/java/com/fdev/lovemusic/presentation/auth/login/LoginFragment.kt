@@ -1,7 +1,6 @@
 package com.fdev.lovemusic.presentation.auth.login
 
 import android.content.Intent
-import android.opengl.Visibility
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,22 +8,16 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.LifecycleCoroutineScope
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.fdev.lovemusic.R
 import com.fdev.lovemusic.databinding.FragmentLoginBinding
-import com.fdev.lovemusic.datasource.network.business.abstraction.UserNetworkDatasource
-import com.fdev.lovemusic.datasource.network.business.implementation.UserNetworkDatasourceImpl
+import com.fdev.lovemusic.util.errorHandler
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 
 @AndroidEntryPoint
@@ -43,7 +36,6 @@ class LoginFragment : Fragment() {
         get() = _binding!!
 
 
-    private val auth: FirebaseAuth = FirebaseAuth.getInstance()
     private lateinit var googleSignInClient: GoogleSignInClient
 
     override fun onCreateView(
@@ -60,25 +52,21 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initListener()
-        initAllSigninMethod()
+        initGoogleSignin()
         initObserver()
     }
 
     private fun initObserver() {
         loginViewModel.isUserExist.observe(viewLifecycleOwner , { isUserExist ->
-            println("apakah user exist : " + isUserExist)
-            if(!isUserExist){
-                navToRegister()
+            isUserExist?.let{
+                if(!isUserExist){
+                    navToRegister()
+                }
             }
-//            else{
-//                //TODO
-//                //Login
-//                //Tell auth activity main activity
-//            }
         })
 
         loginViewModel.errorMessage.observe(viewLifecycleOwner , {
-            println("Error $it")
+            Toast.makeText(requireContext() , it , Toast.LENGTH_SHORT).show()
         })
 
         loginViewModel.loading.observe(viewLifecycleOwner , {
@@ -119,10 +107,6 @@ class LoginFragment : Fragment() {
         }
     }
 
-    private fun initAllSigninMethod() {
-        initGoogleSignin()
-    }
-
 
     private fun initGoogleSignin() {
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -131,6 +115,8 @@ class LoginFragment : Fragment() {
             .build()
 
         googleSignInClient = GoogleSignIn.getClient(requireContext(), gso)
+
+
 
     }
 
@@ -145,10 +131,11 @@ class LoginFragment : Fragment() {
                     val account = task.getResult(ApiException::class.java)!!
                     account.idToken?.let{ idToken ->
                         loginViewModel.checkIfUserExist(idToken)
+
                     }
                 } catch (e: ApiException) {
                     // Google Sign In failed, update UI appropriately
-                    println("Error $e")
+                    Toast.makeText(requireContext() , errorHandler(e) , Toast.LENGTH_SHORT).show()
                 }
             }
         }

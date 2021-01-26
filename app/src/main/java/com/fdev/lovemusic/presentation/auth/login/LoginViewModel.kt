@@ -19,9 +19,9 @@ constructor(
         private val userInteractor: UserInteractor
 ) : BaseViewModel(){
 
-    private val _isUserExist : MutableLiveData<Boolean> = MutableLiveData(false)
+    private val _isUserExist : MutableLiveData<Boolean?> = MutableLiveData(null)
 
-    val isUserExist : LiveData<Boolean>
+    val isUserExist : LiveData<Boolean?>
         get() = _isUserExist
 
     fun checkIfUserExist(idTokenString: String){
