@@ -78,6 +78,7 @@ dependencies {
 
     //Dagger Hilt
     implementation Libs.Hilt.hiltAndroid
+    implementation Libs.Hilt.viewModel
     kapt Libs.Hilt.compiler
 
 

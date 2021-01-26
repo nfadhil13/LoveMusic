@@ -39,10 +39,13 @@ object Libs {
 
     object Hilt{
         private const val version = "2.31.2-alpha"
+        private const val viewmodelVersion = "1.0.0-alpha02"
 
         const val gradlePlugin = "com.google.dagger:hilt-android-gradle-plugin:$version"
         const val hiltAndroid = "com.google.dagger:hilt-android:$version"
         const val compiler = "com.google.dagger:hilt-android-compiler:$version"
+        const val viewModel = "androidx.hilt:hilt-lifecycle-viewmodel:$viewmodelVersion"
+
     }
 
 }

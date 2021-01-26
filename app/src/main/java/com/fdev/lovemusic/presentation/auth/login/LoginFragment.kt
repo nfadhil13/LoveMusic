@@ -43,8 +43,6 @@ class LoginFragment : Fragment() {
         get() = _binding!!
 
 
-    @Inject lateinit var  userNetworkDatasource: UserNetworkDatasource
-
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
     private lateinit var googleSignInClient: GoogleSignInClient
 
@@ -68,7 +66,8 @@ class LoginFragment : Fragment() {
 
     private fun initObserver() {
         loginViewModel.isUserExist.observe(viewLifecycleOwner , { isUserExist ->
-            if(isUserExist){
+            println("apakah user exist : " + isUserExist)
+            if(!isUserExist){
                 navToRegister()
             }
 //            else{

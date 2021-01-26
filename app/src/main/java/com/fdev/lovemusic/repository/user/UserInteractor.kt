@@ -7,6 +7,5 @@ import javax.inject.Inject
 class UserInteractor
 @Inject
 constructor(
-       val checkIfUserExist: CheckIfUserExist,
-       val userInteractor: UserInteractor
+       val checkIfUserExist: CheckIfUserExist
 )
