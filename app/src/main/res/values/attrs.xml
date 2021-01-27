@@ -4,6 +4,7 @@
         <attr name="errorTextColor" format="color"/>
         <attr name="errorTextSize" format="dimension"/>
         <attr name="errorText" format="string"/>
+        <attr name="cursorWidth" format="dimension"/>
         <attr name="textColorHint" format="color"/>
         <attr name="hint" format="string"/>
         <attr name="textSize" format="dimension"/>

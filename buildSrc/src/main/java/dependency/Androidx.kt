@@ -5,7 +5,7 @@ object Androidx {
 
 
     private const val coreKtxVersion = "1.3.2"
-    const val coreKtx = "androidx.core:core-ktx:$coreKtxVersion"
+    const val   coreKtx = "androidx.core:core-ktx:$coreKtxVersion"
 
     private const val appCompatVersion = "1.2.0"
     const val appCompat = "androidx.appcompat:appcompat:$appCompatVersion"
@@ -21,9 +21,13 @@ object Androidx {
     const val liveData =  "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion"
 
 
+    //Fragment-KTX
+    private const val fragmentKtxVersion = "1.2.5"
+    const val fragmentKtx = "androidx.fragment:fragment-ktx:$fragmentKtxVersion"
+
     //Part of navigation component
     private const val navVersion = "2.3.2"
-    const val fragmentKtx = "androidx.navigation:navigation-fragment-ktx:$navVersion"
+    const val navigationFragmentKtx = "androidx.navigation:navigation-fragment-ktx:$navVersion"
     const val navigatioUIKtx = "androidx.navigation:navigation-ui-ktx:$navVersion"
 
 }

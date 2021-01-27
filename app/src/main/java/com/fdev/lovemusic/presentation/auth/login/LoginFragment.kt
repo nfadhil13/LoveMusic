@@ -18,6 +18,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
+import kotlin.math.log
 
 
 @AndroidEntryPoint
@@ -25,7 +26,6 @@ class LoginFragment : Fragment() {
 
 
     private val loginViewModel : LoginViewModel by viewModels()
-
     companion object {
         const val GOOGLE_SIGN_IN = 12
     }
@@ -58,11 +58,11 @@ class LoginFragment : Fragment() {
 
     private fun initObserver() {
         loginViewModel.isUserExist.observe(viewLifecycleOwner , { isUserExist ->
-            isUserExist?.let{
-                if(!isUserExist){
-                    navToRegister()
-                }
-            }
+           isUserExist.get()?.let{ value ->
+               if(!value){
+                   navToRegister()
+               }
+           }
         })
 
         loginViewModel.errorMessage.observe(viewLifecycleOwner , {

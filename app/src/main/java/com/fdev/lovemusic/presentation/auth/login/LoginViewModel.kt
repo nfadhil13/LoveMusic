@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.fdev.lovemusic.presentation.BaseViewModel
 import com.fdev.lovemusic.repository.user.UserInteractor
+import com.fdev.lovemusic.util.SingleEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Dispatchers.IO
@@ -19,9 +20,10 @@ constructor(
         private val userInteractor: UserInteractor
 ) : BaseViewModel(){
 
-    private val _isUserExist : MutableLiveData<Boolean?> = MutableLiveData(null)
+    private val _isUserExist : MutableLiveData<SingleEvent<Boolean?>> = MutableLiveData(SingleEvent(null))
 
-    val isUserExist : LiveData<Boolean?>
+
+    val isUserExist : LiveData<SingleEvent<Boolean?>>
         get() = _isUserExist
 
     fun checkIfUserExist(idTokenString: String){
@@ -39,9 +41,10 @@ constructor(
 
     private fun setIsUserExist(userExist : Boolean) {
         viewModelScope.launch(Dispatchers.Main){
-            _isUserExist.value = userExist
+            _isUserExist.value = SingleEvent(userExist)
         }
     }
+
 
 
 

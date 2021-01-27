@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.fdev.lovemusic.databinding.FragmentLoginBinding
 import com.fdev.lovemusic.databinding.FragmentRegisterBinding
@@ -30,7 +31,6 @@ class RegisterFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.daftarBtn.disableButton()
         binding.apply {
             usernameTextField.addOnErrorListener(isError = { currentText ->
                 binding.daftarBtn.disableButton()
@@ -46,7 +46,16 @@ class RegisterFragment : Fragment() {
                 binding.daftarBtn.enableButton()
                 return@addOnErrorListener ErrorData.NotError
             })
-        }
+
+            daftarBtn.setOnTrickyClickListener(
+                    onEnable =  {
+                        Toast.makeText(requireContext() , "Bisa" , Toast.LENGTH_SHORT).show()
+                    },
+                    onDisable = {
+                        usernameTextField.requestError("Isi username")
+                    }
+            )
+      }
     }
 
 

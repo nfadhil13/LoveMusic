@@ -57,10 +57,11 @@ dependencies {
     implementation Androidx.coreKtx
     implementation Androidx.appCompat
     implementation Androidx.constraintLayout
-    implementation Androidx.navigatioUIKtx
     implementation Androidx.fragmentKtx
     implementation Androidx.viewModel
     implementation Androidx.liveData
+    implementation Androidx.navigatioUIKtx
+    implementation Androidx.navigationFragmentKtx
 
 
     //Google-Material
