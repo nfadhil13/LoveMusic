@@ -1,4 +1,4 @@
-package com.fdev.lovemusic.datasource.network.framework.service
+package com.fdev.lovemusic.datasource.network.framework.service.firebase
 
 object FirestoreDocuments {
 

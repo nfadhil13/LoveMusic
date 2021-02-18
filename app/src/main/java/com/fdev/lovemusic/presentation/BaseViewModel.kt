@@ -5,20 +5,21 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.fdev.lovemusic.repository.Resource
+import com.fdev.lovemusic.util.SingleEvent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 abstract class BaseViewModel : ViewModel() {
 
-    private val _loading : MutableLiveData<Boolean> = MutableLiveData(false)
+    protected val _loading : MutableLiveData<Boolean> = MutableLiveData(false)
 
     val loading : LiveData<Boolean>
         get() = _loading
 
 
-    private val _errorMessage : MutableLiveData<String> = MutableLiveData("")
+    protected val _errorMessage : MutableLiveData<SingleEvent<String>> = MutableLiveData(SingleEvent(""))
 
-    val errorMessage : LiveData<String>
+    val errorMessage : LiveData<SingleEvent<String>>
         get() = _errorMessage
 
     protected  fun <T> onCollect(response : Resource<T>, executeOnSuccess : (Resource.Success<T>) -> Unit) {
@@ -29,11 +30,7 @@ abstract class BaseViewModel : ViewModel() {
             }
             is Resource.Error -> {
                 setLoading(false)
-                response.message?.let { message ->
-                    setErrorMessage(
-                            message = message
-                    )
-                }
+                _errorMessage.value = SingleEvent(response.onErrorInteraction.message)
 
             }
             is Resource.Loading -> {
@@ -52,7 +49,7 @@ abstract class BaseViewModel : ViewModel() {
 
     private fun setErrorMessage(message : String) {
         viewModelScope.launch(Dispatchers.Main){
-            _errorMessage.value = message
+            _errorMessage.value = SingleEvent(message)
         }
     }
 }

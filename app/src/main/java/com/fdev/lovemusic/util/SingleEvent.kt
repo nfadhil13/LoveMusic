@@ -12,4 +12,7 @@ class SingleEvent<T>(private val value: T) {
                 isConsumed = true
                 value
             }
+
+
+    fun peek() : T = value
 }

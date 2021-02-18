@@ -11,14 +11,12 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.fdev.lovemusic.R
 import com.fdev.lovemusic.databinding.FragmentLoginBinding
-import com.fdev.lovemusic.util.errorHandler
+import com.fdev.lovemusic.repository.errorHandler
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
-import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
-import kotlin.math.log
 
 
 @AndroidEntryPoint
@@ -66,7 +64,11 @@ class LoginFragment : Fragment() {
         })
 
         loginViewModel.errorMessage.observe(viewLifecycleOwner , {
-            Toast.makeText(requireContext() , it , Toast.LENGTH_SHORT).show()
+            it.get()?.let{ message ->
+                if(message.isNotBlank()){
+                    Toast.makeText(requireContext() , message , Toast.LENGTH_SHORT).show()
+                }
+            }
         })
 
         loginViewModel.loading.observe(viewLifecycleOwner , {
@@ -135,7 +137,7 @@ class LoginFragment : Fragment() {
                     }
                 } catch (e: ApiException) {
                     // Google Sign In failed, update UI appropriately
-                    Toast.makeText(requireContext() , errorHandler(e) , Toast.LENGTH_SHORT).show()
+                    errorHandler(e)
                 }
             }
         }

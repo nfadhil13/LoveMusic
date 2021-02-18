@@ -30,10 +30,7 @@ constructor(
         viewModelScope.launch(IO){
             userInteractor.checkIfUserExist.fetch(idTokenString , IO).collect { response ->
                 onCollect(response , executeOnSuccess =  { successResponse ->
-                    successResponse.data?.let{
                         setIsUserExist(successResponse.data)
-                    }
-
                 })
             }
         }

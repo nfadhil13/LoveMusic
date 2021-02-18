@@ -1,17 +1,17 @@
-package com.fdev.lovemusic.datasource.network.framework.mapper
+package com.fdev.lovemusic.datasource.network.framework.service.firebase.mapper
 
 import com.fdev.lovemusic.datasource.DomainMapper
-import com.fdev.lovemusic.datasource.network.framework.model.UserDto
+import com.fdev.lovemusic.datasource.network.framework.service.firebase.model.UserFirebaseDto
 import com.fdev.lovemusic.model.User
 import javax.inject.Inject
 
-class UserNetworkMapper
+class UserFirebaseMapper
 @Inject
-constructor() : DomainMapper<UserDto , User> {
+constructor() : DomainMapper<UserFirebaseDto , User> {
 
 
-    override fun mapFromDomain(domain: User): UserDto {
-        return UserDto(
+    override fun mapFromDomain(domain: User): UserFirebaseDto {
+        return UserFirebaseDto(
                 id = domain.id,
                 email = domain.email,
                 url_photo = domain.url_photo,
@@ -19,7 +19,7 @@ constructor() : DomainMapper<UserDto , User> {
         )
     }
 
-    override fun mapToDomain(t: UserDto): User {
+    override fun mapToDomain(t: UserFirebaseDto): User {
         return User(
                 id = t.id,
                 email = t.email,

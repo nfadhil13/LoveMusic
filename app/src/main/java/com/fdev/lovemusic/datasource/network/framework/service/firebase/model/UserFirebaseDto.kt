@@ -1,6 +1,6 @@
-package com.fdev.lovemusic.datasource.network.framework.model
+package com.fdev.lovemusic.datasource.network.framework.service.firebase.model
 
-data class UserDto(
+data class UserFirebaseDto(
     val id : String,
     val username : String,
     val email : String = "",
