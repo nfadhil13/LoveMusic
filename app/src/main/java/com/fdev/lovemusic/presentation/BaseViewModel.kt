@@ -4,8 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.fdev.lovemusic.repository.Resource
+import com.fdev.lovemusic.interactors.Resource
 import com.fdev.lovemusic.util.SingleEvent
+import com.fdev.lovemusic.util.UIInteraction
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -17,20 +18,21 @@ abstract class BaseViewModel : ViewModel() {
         get() = _loading
 
 
-    protected val _errorMessage : MutableLiveData<SingleEvent<String>> = MutableLiveData(SingleEvent(""))
+    protected val _userInteraction : MutableLiveData<SingleEvent<UIInteraction>> = MutableLiveData(SingleEvent(UIInteraction.DoNothing))
 
-    val errorMessage : LiveData<SingleEvent<String>>
-        get() = _errorMessage
+    val userInteraction : LiveData<SingleEvent<UIInteraction>>
+        get() = _userInteraction
 
     protected  fun <T> onCollect(response : Resource<T>, executeOnSuccess : (Resource.Success<T>) -> Unit) {
         when(response){
             is Resource.Success -> {
                 setLoading(false)
+                setUserInteraction(response.onSuccessInteraction)
                 executeOnSuccess(response)
             }
             is Resource.Error -> {
                 setLoading(false)
-                _errorMessage.value = SingleEvent(response.onErrorInteraction.message)
+                setUserInteraction(userInteraction = response.onErrorInteraction)
 
             }
             is Resource.Loading -> {
@@ -41,15 +43,15 @@ abstract class BaseViewModel : ViewModel() {
 
 
 
-    private fun setLoading(isLoading : Boolean) {
+    protected fun setLoading(isLoading : Boolean) {
         viewModelScope.launch(Dispatchers.Main){
             _loading.value = isLoading
         }
     }
 
-    private fun setErrorMessage(message : String) {
+    protected fun setUserInteraction(userInteraction: UIInteraction) {
         viewModelScope.launch(Dispatchers.Main){
-            _errorMessage.value = SingleEvent(message)
+            _userInteraction.value = SingleEvent(userInteraction)
         }
     }
 }

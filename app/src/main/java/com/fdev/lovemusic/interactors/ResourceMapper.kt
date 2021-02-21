@@ -1,16 +1,16 @@
-package com.fdev.lovemusic.repository
+package com.fdev.lovemusic.interactors
 
-import com.fdev.lovemusic.datasource.network.NetworkResource
+import com.fdev.lovemusic.datasource.DataSourceResource
 
-fun <T> networkResourceToResource(networkResource: NetworkResource<T>) : Resource<T>{
+fun <T> networkResourceToResource(networkResource: DataSourceResource<T>) : Resource<T>{
     return when(networkResource){
-        is NetworkResource.Success -> {
+        is DataSourceResource.Success -> {
             Resource.Success(
                     data = networkResource.data,
                     onSuccessInteraction = networkResource.onSuccessInteraction
             )
         }
-        is NetworkResource.Error -> {
+        is DataSourceResource.Error -> {
             Resource.Error(
                     onErrorInteraction = networkResource.onErrorInteraction
             )

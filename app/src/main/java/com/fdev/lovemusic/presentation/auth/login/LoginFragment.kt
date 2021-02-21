@@ -7,11 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.fdev.lovemusic.R
 import com.fdev.lovemusic.databinding.FragmentLoginBinding
-import com.fdev.lovemusic.repository.errorHandler
+import com.fdev.lovemusic.interactors.errorHandler
+import com.fdev.lovemusic.presentation.BaseFragment
+import com.fdev.lovemusic.presentation.InteractorViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -20,10 +23,12 @@ import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class LoginFragment : Fragment() {
+class LoginFragment : BaseFragment() {
 
 
     private val loginViewModel : LoginViewModel by viewModels()
+
+
     companion object {
         const val GOOGLE_SIGN_IN = 12
     }
@@ -55,39 +60,30 @@ class LoginFragment : Fragment() {
     }
 
     private fun initObserver() {
-        loginViewModel.isUserExist.observe(viewLifecycleOwner , { isUserExist ->
-           isUserExist.get()?.let{ value ->
-               if(!value){
-                   navToRegister()
-               }
-           }
-        })
-
-        loginViewModel.errorMessage.observe(viewLifecycleOwner , {
-            it.get()?.let{ message ->
-                if(message.isNotBlank()){
-                    Toast.makeText(requireContext() , message , Toast.LENGTH_SHORT).show()
-                }
-            }
-        })
-
-        loginViewModel.loading.observe(viewLifecycleOwner , {
-            toogleLoading(it)
-        })
-    }
-
-    private fun toogleLoading(isLoading : Boolean){
-        binding.apply {
-            if(isLoading){
-                overlay.visibility = View.VISIBLE
-                progressBar.visibility = View.VISIBLE
+        loginViewModel.isUserExist.observe(viewLifecycleOwner, { userExistSingleEvent ->
+            val isUserExist = userExistSingleEvent.get() ?:  return@observe
+            if(isUserExist){
+                navToRegister()
             }else{
-                overlay.visibility = View.GONE
-                progressBar.visibility = View.GONE
+                //TODO : NAV TO MAIN ACTIVITY
             }
-        }
+        })
 
+        loginViewModel.userInteraction.observe(viewLifecycleOwner , {
+            val userInteraction = it.get() ?: return@observe
+            interactorViewModel.showUserInteraction(userInteraction)
+        })
+
+        loginViewModel.loading.observe(viewLifecycleOwner , { isShowLoading ->
+            if(isShowLoading){
+                interactorViewModel.startLoading()
+            }else{
+                interactorViewModel.finishLoading()
+            }
+        })
     }
+
+
 
     private fun navToRegister() {
         findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
@@ -115,11 +111,7 @@ class LoginFragment : Fragment() {
             .requestIdToken(getString(R.string.what_do_you_mean))
             .requestEmail()
             .build()
-
         googleSignInClient = GoogleSignIn.getClient(requireContext(), gso)
-
-
-
     }
 
 

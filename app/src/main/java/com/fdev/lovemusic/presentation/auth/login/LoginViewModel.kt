@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.fdev.lovemusic.presentation.BaseViewModel
-import com.fdev.lovemusic.repository.user.UserInteractor
+import com.fdev.lovemusic.interactors.user.UserInteractor
 import com.fdev.lovemusic.util.SingleEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers

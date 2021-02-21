@@ -1,9 +1,9 @@
-package com.fdev.lovemusic.repository.user
+package com.fdev.lovemusic.interactors.user
 
 
 import com.fdev.lovemusic.datasource.network.business.abstraction.UserNetworkDatasource
-import com.fdev.lovemusic.repository.Resource
-import com.fdev.lovemusic.repository.networkResourceToResource
+import com.fdev.lovemusic.interactors.Resource
+import com.fdev.lovemusic.interactors.networkResourceToResource
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
