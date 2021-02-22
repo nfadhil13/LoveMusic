@@ -5,6 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.fdev.lovemusic.presentation.BaseViewModel
 import com.fdev.lovemusic.interactors.user.UserInteractor
+import com.fdev.lovemusic.model.User
+import com.fdev.lovemusic.presentation.auth.login.LoginViewState.*
 import com.fdev.lovemusic.util.SingleEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -20,25 +22,34 @@ constructor(
         private val userInteractor: UserInteractor
 ) : BaseViewModel(){
 
-    private val _isUserExist : MutableLiveData<SingleEvent<Boolean?>> = MutableLiveData(SingleEvent(null))
+    private val _loginStateView : MutableLiveData<LoginViewState> = MutableLiveData(LoginViewState())
 
 
-    val isUserExist : LiveData<SingleEvent<Boolean?>>
-        get() = _isUserExist
 
-    fun checkIfUserExist(idTokenString: String){
+    val loginStateView : LiveData<LoginViewState>
+        get() = _loginStateView
+
+    var currentIdToken : String = ""
+       private set
+
+
+    fun loginOrNull(idTokenString: String){
+        currentIdToken = idTokenString
         viewModelScope.launch(IO){
             userInteractor.checkIfUserExist.fetch(idTokenString , IO).collect { response ->
                 onCollect(response , executeOnSuccess =  { successResponse ->
-                        setIsUserExist(successResponse.data)
+                        println("Success hasil data : ${successResponse.data}")
+                        setLoginOrNullResult(successResponse.data)
                 })
             }
         }
     }
 
-    private fun setIsUserExist(userExist : Boolean) {
+    private fun setLoginOrNullResult(user : User?) {
         viewModelScope.launch(Dispatchers.Main){
-            _isUserExist.value = SingleEvent(userExist)
+            val currentValue = _loginStateView.value
+            currentValue?.loginOrNullResult = SingleEvent(LoginOrNullResult(user))
+            _loginStateView.value = currentValue
         }
     }
 

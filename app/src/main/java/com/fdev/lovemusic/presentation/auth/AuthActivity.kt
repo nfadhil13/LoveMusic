@@ -1,19 +1,21 @@
 package com.fdev.lovemusic.presentation.auth
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
 import com.fdev.lovemusic.databinding.ActivityAuthBinding
+import com.fdev.lovemusic.model.User
 import com.fdev.lovemusic.presentation.BaseActivity
-import com.fdev.lovemusic.presentation.InteractorViewModel
+import com.fdev.lovemusic.presentation.ActivityBaseViewModel
+import com.fdev.lovemusic.presentation.main.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class AuthActivity : BaseActivity() {
 
     private lateinit var binding : ActivityAuthBinding
-    private val interactorViewModel : InteractorViewModel by viewModels()
+    private val activityViewModel : AuthActivityViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,14 +26,26 @@ class AuthActivity : BaseActivity() {
     }
 
     private fun observeVM() {
-        interactorViewModel.loading.observe(this , {
+        activityViewModel.loading.observe(this , {
             toogleLoading(it)
         })
 
-        interactorViewModel.userInteraction.observe(this , {
+        activityViewModel.userInteraction.observe(this , {
             val interaction = it.get() ?: return@observe
             handleUIInteraction(interaction)
         })
+
+        activityViewModel.sessionManager.currentUser.observe(this , { user ->
+            println("Ada user baru lohhh : ${user}")
+            if(user == null) return@observe
+            navToMainActivity()
+        })
+    }
+
+    private fun navToMainActivity() {
+        val intent = Intent(this , MainActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 
 
@@ -39,10 +53,8 @@ class AuthActivity : BaseActivity() {
         binding.apply {
             if(isLoading){
                 overlay.visibility = View.VISIBLE
-                progressBar.visibility = View.VISIBLE
             }else{
                 overlay.visibility = View.GONE
-                progressBar.visibility = View.GONE
             }
         }
 

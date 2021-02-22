@@ -31,7 +31,6 @@ abstract class NetworkSaveCall<T> {
     }
 
     suspend fun fetch(): DataSourceResource<T> {
-
         return try {
             networkCall()
         } catch (exception: Exception) {

@@ -1,22 +1,26 @@
 package com.fdev.lovemusic.presentation.auth.register
 
-import android.opengl.Visibility
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.fdev.lovemusic.databinding.FragmentLoginBinding
 import com.fdev.lovemusic.databinding.FragmentRegisterBinding
 import com.fdev.lovemusic.datasource.network.NetworkErrorConst
-import com.fdev.lovemusic.presentation.BaseFragment
+import com.fdev.lovemusic.presentation.BaseViewModel
+import com.fdev.lovemusic.presentation.auth.AuthBaseFragment
+import com.fdev.lovemusic.util.SingleEvent
 import com.fdev.lovemusic.util.UIInteraction
 import com.fdev.lovemusic.util.customview.ErrorData
+import dagger.hilt.android.AndroidEntryPoint
 
-class RegisterFragment : BaseFragment() {
+@AndroidEntryPoint
+class RegisterFragment : AuthBaseFragment() {
 
+
+    companion object {
+        const val IDTOKEN_STRING_KEY = "com.fdev.lovemusic.presentation.auth.register.idtokenkey"
+    }
 
     private var _binding: FragmentRegisterBinding? = null
     private val registerViewModel: RegisterViewModel by viewModels()
@@ -36,6 +40,21 @@ class RegisterFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initListener()
+        iniatlizeBundle()
+        observeVM()
+    }
+
+    override fun setBaseViewModel(): BaseViewModel {
+        return registerViewModel
+    }
+
+    private fun iniatlizeBundle() {
+        val idToken = arguments?.getString(IDTOKEN_STRING_KEY) ?: return
+        registerViewModel.setCurrentIdToken(idToken = idToken)
+    }
+
+    private fun initListener(){
         binding.apply {
             usernameTextField.addOnErrorListener(isError = { currentText ->
                 binding.daftarBtn.disableButton()
@@ -54,40 +73,35 @@ class RegisterFragment : BaseFragment() {
 
             daftarBtn.setOnTrickyClickListener(
                     onEnable = {
-                        Toast.makeText(requireContext(), "Bisa", Toast.LENGTH_SHORT).show()
+                        registerViewModel.register(
+                                username = usernameTextField.getCurrentText()
+                        )
                     },
                     onDisable = {
                         usernameTextField.requestError("Isi username")
                     }
             )
         }
-        observeVM()
     }
 
 
     private fun observeVM() {
-        registerViewModel.userInteraction.observe(viewLifecycleOwner, {
-            val userInteraction = it.get() ?: return@observe
-            when (userInteraction) {
-                is UIInteraction.GenericMessage -> {
-                    genericMessageHadnler(userInteraction.message)
-                }
-
-                else -> {
-                    interactorViewModel.showUserInteraction(userInteraction)
-                }
-            }
-
-        })
-
-        registerViewModel.loading.observe(viewLifecycleOwner, { isShowLoading ->
-            if (isShowLoading) {
-                interactorViewModel.startLoading()
-            } else {
-                interactorViewModel.finishLoading()
+        registerViewModel.registerViewState.observe(viewLifecycleOwner , { viewState ->
+            viewState.registerResult.get()?.let{ result ->
+                activityViewModel.setCurrentUser(result.user)
             }
         })
+    }
 
+    override fun handleUserInteraction(uiInteraction: UIInteraction){
+        when(uiInteraction)  {
+            is UIInteraction.GenericMessage -> {
+                genericMessageHadnler(message = uiInteraction.message)
+            }
+            else -> {
+                super.handleUserInteraction(uiInteraction)
+            }
+        }
     }
 
     private fun genericMessageHadnler(message: String) {

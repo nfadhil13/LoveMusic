@@ -6,15 +6,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
+import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.fdev.lovemusic.R
 import com.fdev.lovemusic.databinding.FragmentLoginBinding
 import com.fdev.lovemusic.interactors.errorHandler
-import com.fdev.lovemusic.presentation.BaseFragment
-import com.fdev.lovemusic.presentation.InteractorViewModel
+import com.fdev.lovemusic.presentation.BaseViewModel
+import com.fdev.lovemusic.presentation.auth.AuthBaseFragment
+import com.fdev.lovemusic.presentation.auth.register.RegisterFragment
+import com.fdev.lovemusic.util.UIInteraction
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -23,16 +24,14 @@ import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class LoginFragment : BaseFragment() {
-
-
-    private val loginViewModel : LoginViewModel by viewModels()
+class LoginFragment : AuthBaseFragment() {
 
 
     companion object {
         const val GOOGLE_SIGN_IN = 12
     }
 
+    private val loginViewModel : LoginViewModel by viewModels()
     private var _binding: FragmentLoginBinding? = null
 
     private val binding
@@ -59,34 +58,33 @@ class LoginFragment : BaseFragment() {
         initObserver()
     }
 
+    override fun setBaseViewModel(): BaseViewModel {
+        return loginViewModel
+    }
+
     private fun initObserver() {
-        loginViewModel.isUserExist.observe(viewLifecycleOwner, { userExistSingleEvent ->
-            val isUserExist = userExistSingleEvent.get() ?:  return@observe
-            if(isUserExist){
-                navToRegister()
-            }else{
-                //TODO : NAV TO MAIN ACTIVITY
+        loginViewModel.loginStateView.observe(viewLifecycleOwner, { currentStateView ->
+
+            currentStateView.loginOrNullResult.get()?.let{ result ->
+                val loggedInUser = result.user
+                if(loggedInUser == null){
+                    navToRegister()
+                }else{
+                    activityViewModel.setCurrentUser(loggedInUser)
+                }
             }
+
         })
 
-        loginViewModel.userInteraction.observe(viewLifecycleOwner , {
-            val userInteraction = it.get() ?: return@observe
-            interactorViewModel.showUserInteraction(userInteraction)
-        })
 
-        loginViewModel.loading.observe(viewLifecycleOwner , { isShowLoading ->
-            if(isShowLoading){
-                interactorViewModel.startLoading()
-            }else{
-                interactorViewModel.finishLoading()
-            }
-        })
     }
 
 
 
+
+
     private fun navToRegister() {
-        findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
+        findNavController().navigate(R.id.action_loginFragment_to_registerFragment , bundleOf(RegisterFragment.IDTOKEN_STRING_KEY to loginViewModel.currentIdToken))
     }
 
 
@@ -97,10 +95,16 @@ class LoginFragment : BaseFragment() {
                 startActivityForResult(signInIntent, GOOGLE_SIGN_IN)
             }
             facebookBtn.setOnClickListener {
-                Toast.makeText(requireContext() , "This Feature will be release soon" , Toast.LENGTH_SHORT).show()
+                activityViewModel.showUserInteraction(UIInteraction.ShowToast(
+                        toastMessage = "This Feature will be release soon",
+                        toasTime = Toast.LENGTH_SHORT
+                ))
             }
             appleBtn.setOnClickListener {
-                Toast.makeText(requireContext() , "This Feature will be release soon" , Toast.LENGTH_SHORT).show()
+                activityViewModel.showUserInteraction(UIInteraction.ShowToast(
+                        toastMessage = "This Feature will be release soon",
+                        toasTime = Toast.LENGTH_SHORT
+                ))
             }
         }
     }
@@ -124,7 +128,7 @@ class LoginFragment : BaseFragment() {
                     // Google Sign In was successful, authenticate with Firebase
                     val account = task.getResult(ApiException::class.java)!!
                     account.idToken?.let{ idToken ->
-                        loginViewModel.checkIfUserExist(idToken)
+                        loginViewModel.loginOrNull(idToken)
 
                     }
                 } catch (e: ApiException) {
