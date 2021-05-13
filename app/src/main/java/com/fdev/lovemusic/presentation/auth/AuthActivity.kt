@@ -36,14 +36,13 @@ class AuthActivity : BaseActivity() {
         })
 
         activityViewModel.sessionManager.currentUser.observe(this , { user ->
-            println("Ada user baru lohhh : ${user}")
             if(user == null) return@observe
             navToMainActivity()
         })
     }
 
     private fun navToMainActivity() {
-        val intent = Intent(this , MainActivity::class.java)
+        val intent =  Intent(this , MainActivity::class.java)
         startActivity(intent)
         finish()
     }

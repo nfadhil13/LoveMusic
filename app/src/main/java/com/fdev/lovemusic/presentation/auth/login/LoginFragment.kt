@@ -133,7 +133,7 @@ class LoginFragment : AuthBaseFragment() {
                     }
                 } catch (e: ApiException) {
                     // Google Sign In failed, update UI appropriately
-                    errorHandler(e)
+                   activityViewModel.showUserInteraction(errorHandler(e))
                 }
             }
         }
